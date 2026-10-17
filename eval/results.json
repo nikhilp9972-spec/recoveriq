@@ -10587,8 +10587,8 @@
       }
     ]
   },
-  "paisa_wapas_agent": {
-    "policy": "paisa_wapas_agent",
+  "recoveriq_agent": {
+    "policy": "recoveriq_agent",
     "cases": 1000,
     "total_at_risk": 4358330,
     "recovered": 3145967,

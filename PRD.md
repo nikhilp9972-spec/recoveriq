@@ -1,4 +1,4 @@
-# Paisa Wapas — Product Requirements Document
+# RecoverIQ — Product Requirements Document
 
 **An autonomous revenue-recovery agent that finds failed payments, learns the smartest moment to retry them, and wins the money back — with a full audit trail.**
 
@@ -24,7 +24,7 @@ The result: recoverable money is written off, not because recovery is hard, but 
 
 ## 2. The product
 
-Paisa Wapas is a pipeline of five stages. A failed payment enters at one end; recovered rupees, or an honest, logged "gave up — here's why," exits at the other.
+RecoverIQ is a pipeline of five stages. A failed payment enters at one end; recovered rupees, or an honest, logged "gave up — here's why," exits at the other.
 
 **The core differentiator:** the retry-timing brain is a **contextual bandit** (a learning decision engine), not an LLM prompt. The LLM (Claude) is used only where language is the job — explaining decisions in plain English and drafting customer nudges. This makes the system fast, cheap, deterministic to replay, and defensible in a panel interview.
 
@@ -123,7 +123,7 @@ flowchart LR
 
 1. Freeze one synthetic batch of 1,000 failed payments (published in the repo).
 2. Run **Baseline A**: naive cron (retry every 24h × 3). Run **Baseline B**: retry-all-immediately.
-3. Run **Paisa Wapas** on the identical batch with the same simulator seed.
+3. Run **RecoverIQ** on the identical batch with the same simulator seed.
 4. Report: ₹ recovered, recovery rate, attempts used, cost per recovered ₹, guardrail violations (must be 0), and the unresolved-exception list.
 5. Publish a `make evaluate` command so a judge can reproduce every number.
 
@@ -149,7 +149,7 @@ flowchart LR
 ## 9. Repo structure
 
 ```
-paisa-wapas/
+recoveriq/
 ├── README.md              # product story, metrics table, demo GIF, "what didn't work"
 ├── ARCHITECTURE.md        # this pipeline + diagram, decision log
 ├── data/                  # generator + frozen evaluation batch + source citations

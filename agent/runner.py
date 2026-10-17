@@ -20,7 +20,7 @@ CONTACT_LAG = {"nudge": 6, "voice": 1}  # hours until a promised payment lands
 
 class AgentPolicy:
     """Diagnosis + Thompson bandit + guardrails. The real product."""
-    name = "paisa_wapas_agent"
+    name = "recoveriq_agent"
     uses_diagnosis = True
 
     def __init__(self, seed: int = 99):

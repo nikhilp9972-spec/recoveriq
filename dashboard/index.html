@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paisa Wapas Console</title>
+<title>RecoverIQ Console</title>
 <style>
   :root{
     color-scheme: dark;
@@ -141,7 +141,7 @@
 <div class="wrap">
   <header>
     <div class="mark">₹</div>
-    <div class="brand"><b>Paisa Wapas</b><span>autonomous revenue recovery · console</span></div>
+    <div class="brand"><b>RecoverIQ</b><span>autonomous revenue recovery · console</span></div>
     <div class="spacer"></div>
     <span class="pill mode"><span class="dot"></span>Razorpay test-mode</span>
     <span class="pill" id="batchPill"></span>
@@ -195,7 +195,7 @@
 
   <footer>
     <div class="grow">
-      <b>Paisa Wapas</b> — autonomous revenue recovery for failed Indian recurring payments.
+      <b>RecoverIQ</b> — autonomous revenue recovery for failed Indian recurring payments.
       Razorpay AI Buildathon, Track 03.
       <p>Every number on this page is reproducible: <code>make evaluate</code> →
         eval/results.json + ledger.sqlite → this console. Synthetic data and test-mode
@@ -216,9 +216,9 @@
 <script src="data.js"></script>
 <script>
 const P = DATA.policies;
-const A = P.paisa_wapas_agent, C = P.baseline_cron_24h, I = P.baseline_immediate;
+const A = P.recoveriq_agent, C = P.baseline_cron_24h, I = P.baseline_immediate;
 const SERIES = [
-  {key:"paisa_wapas_agent",  name:"Paisa Wapas agent", color:"var(--s-agent)"},
+  {key:"recoveriq_agent",  name:"RecoverIQ agent", color:"var(--s-agent)"},
   {key:"baseline_cron_24h",  name:"Cron retry ×3 (industry default)", color:"var(--s-cron)"},
   {key:"baseline_immediate", name:"Retry immediately ×3", color:"var(--s-imm)"},
 ];

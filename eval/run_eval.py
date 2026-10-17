@@ -38,7 +38,7 @@ def main():
         if isinstance(policy, AgentPolicy):
             write_ledger(ledger, os.path.join(ROOT, "ledger.sqlite"))
 
-    results["paisa_wapas_agent"]["bandit_posterior_means"] = agent.bandit.snapshot()
+    results["recoveriq_agent"]["bandit_posterior_means"] = agent.bandit.snapshot()
 
     cols = ["recovered", "recovery_rate_pct", "cases_recovered", "attempts",
             "action_cost", "rupees_recovered_per_attempt"]
@@ -47,9 +47,9 @@ def main():
         print(f"{name:<24}" + "".join(f"{m[c]:>28,}" for c in cols))
 
     base = results["baseline_cron_24h"]["recovered"]
-    ours = results["paisa_wapas_agent"]["recovered"]
+    ours = results["recoveriq_agent"]["recovered"]
     print(f"\nagent vs cron baseline: +{100 * (ours - base) / base:.0f}% rupees recovered")
-    exc = results["paisa_wapas_agent"]["exceptions"]
+    exc = results["recoveriq_agent"]["exceptions"]
     print(f"agent exceptions (honest unrecovered list): {len(exc)} cases")
     reasons = {}
     for e in exc:

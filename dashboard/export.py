@@ -32,7 +32,7 @@ def main():
         policies[name]["curve"] = m["curve"][::10] + [m["curve"][-1]]
 
     # --- what the bandit learned (posterior-mean matrix)
-    snap = results["paisa_wapas_agent"]["bandit_posterior_means"]
+    snap = results["recoveriq_agent"]["bandit_posterior_means"]
     learned = [[snap.get(f"{c}|{a}") for a in ARM_ORDER] for c in CAUSE_ORDER]
 
     # --- guardrail + exception summaries from the audit log
@@ -40,7 +40,7 @@ def main():
         "SELECT event, COUNT(*) FROM audit_log WHERE actor='guardrail' "
         "GROUP BY event").fetchall())
     exceptions = {}
-    for e in results["paisa_wapas_agent"]["exceptions"]:
+    for e in results["recoveriq_agent"]["exceptions"]:
         exceptions[e["reason"]] = exceptions.get(e["reason"], 0) + 1
 
     # --- case explorer: a curated mix of stories, full audit timeline each
@@ -72,8 +72,8 @@ def main():
     cases.sort(key=lambda c: -c["amount"])
 
     data = {
-        "batch": {"n": results["paisa_wapas_agent"]["cases"],
-                  "at_risk": results["paisa_wapas_agent"]["total_at_risk"]},
+        "batch": {"n": results["recoveriq_agent"]["cases"],
+                  "at_risk": results["recoveriq_agent"]["total_at_risk"]},
         "policies": policies,
         "learned": {"causes": CAUSE_ORDER, "arms": ARM_ORDER, "matrix": learned},
         "guardrails": guardrails,

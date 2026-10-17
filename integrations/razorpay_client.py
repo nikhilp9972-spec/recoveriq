@@ -38,7 +38,7 @@ def create_payment_link(case: dict, message: str) -> dict:
         "description": f"Payment recovery — {case['merchant_name']}",
         "reference_id": case["case_id"],
         "notes": {"root_cause": case.get("root_cause", ""),
-                  "agent": "paisa-wapas"},
+                  "agent": "recoveriq"},
     }).encode()
     req = urllib.request.Request(
         f"{BASE}/payment_links", data=body, method="POST",

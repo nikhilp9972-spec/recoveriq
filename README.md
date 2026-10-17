@@ -1,4 +1,4 @@
-# Paisa Wapas 💸
+# RecoverIQ 💸
 
 **An autonomous revenue-recovery agent for Indian recurring payments.** It
 diagnoses *why* a payment failed, then a learning decision engine picks the
@@ -18,7 +18,7 @@ simulator, three policies:
 |---|---:|---:|---:|---:|
 | Retry immediately ×3 | ₹6,06,823 | 13.9% | 2,738 | ₹222 |
 | Cron retry every 24h ×3 (industry default) | ₹11,91,563 | 27.3% | 2,505 | ₹476 |
-| **Paisa Wapas agent** | **₹31,45,967** | **72.2%** | **1,624** | **₹1,937** |
+| **RecoverIQ agent** | **₹31,45,967** | **72.2%** | **1,624** | **₹1,937** |
 
 **+164% more money recovered than the cron baseline, with 35% fewer
 attempts** — and zero guardrail violations (contact windows, retry caps,
@@ -74,7 +74,7 @@ an operator can:
 
 ## The batch-results console
 
-![Paisa Wapas console](dashboard/screenshot.png)
+![RecoverIQ console](dashboard/screenshot.png)
 
 `make dashboard` opens a zero-dependency console showing the recovery race
 against both baselines, the policy the bandit learned, the honest exception

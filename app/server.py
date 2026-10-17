@@ -1,4 +1,4 @@
-"""Paisa Wapas operator app — stdlib HTTP server, zero dependencies.
+"""RecoverIQ operator app — stdlib HTTP server, zero dependencies.
 
     python3 -m app.server   →   http://localhost:8420
 
@@ -121,7 +121,7 @@ def main():
     print("warm-starting the agent on 1,000 historical cases…")
     holder.engine.warm_start()
     threading.Thread(target=clock_loop, daemon=True).start()
-    print(f"Paisa Wapas operator console → http://localhost:{PORT}")
+    print(f"RecoverIQ operator console → http://localhost:{PORT}")
     ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
 
 
