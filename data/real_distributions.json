@@ -1,0 +1,526 @@
+{
+ "fetched_at": "2026-08-24",
+ "source": {
+  "api": "https://www.npci.org.in/api/ecosystem-statistics/get-statistics (top50-member/remitter), https://www.npci.org.in/api/product-statistic/tab/detail",
+  "human_pages": [
+   "https://www.npci.org.in/product/ecosystem-statistics/upi",
+   "https://www.npci.org.in/product/upi/product-statistics"
+  ],
+  "bank_table_month": "Jul 2026",
+  "daily_month": "Jul 2026",
+  "downtime_month": "Jul 2026",
+  "note": "Aggregate public statistics from NPCI; no customer data. Technical-decline floor of 10% applied to keep the downtime-recovery scenario demonstrable (raw split kept alongside)."
+ },
+ "bank_mix": {
+  "SBI": 0.5151,
+  "HDFC": 0.1351,
+  "PNB": 0.1144,
+  "KOTAK": 0.0913,
+  "AXIS": 0.0822,
+  "ICICI": 0.0618
+ },
+ "bank_profiles": {
+  "SBI": {
+   "npci_name": "State Bank of India",
+   "volume_mn": 6622.022189,
+   "approved_pct": 90.29,
+   "business_decline_pct": 9.02,
+   "technical_decline_pct": 0.68
+  },
+  "HDFC": {
+   "npci_name": "HDFC Bank Ltd.",
+   "volume_mn": 1737.216436,
+   "approved_pct": 93.0,
+   "business_decline_pct": 6.99,
+   "technical_decline_pct": 0.01
+  },
+  "PNB": {
+   "npci_name": "Punjab National Bank",
+   "volume_mn": 1470.120376,
+   "approved_pct": 88.2,
+   "business_decline_pct": 11.1,
+   "technical_decline_pct": 0.7
+  },
+  "KOTAK": {
+   "npci_name": "Kotak Mahindra Bank",
+   "volume_mn": 1173.985567,
+   "approved_pct": 88.69,
+   "business_decline_pct": 11.27,
+   "technical_decline_pct": 0.03
+  },
+  "AXIS": {
+   "npci_name": "Axis Bank Ltd.",
+   "volume_mn": 1056.594416,
+   "approved_pct": 92.94,
+   "business_decline_pct": 7.05,
+   "technical_decline_pct": 0.0
+  },
+  "ICICI": {
+   "npci_name": "ICICI Bank Ltd.",
+   "volume_mn": 794.711223,
+   "approved_pct": 94.95,
+   "business_decline_pct": 4.88,
+   "technical_decline_pct": 0.17
+  }
+ },
+ "decline_split": {
+  "business": 0.9,
+  "technical": 0.1,
+  "raw_business": 0.9517,
+  "raw_technical": 0.0483,
+  "technical_floor_applied": true
+ },
+ "failure_mix": [
+  [
+   "U30_DEBIT_FAILED_FUNDS",
+   "mandate",
+   0.54
+  ],
+  [
+   "U68_BANK_UNAVAILABLE",
+   "mandate",
+   0.036
+  ],
+  [
+   "U16_LIMIT_EXCEEDED",
+   "mandate",
+   0.108
+  ],
+  [
+   "U28_TECHNICAL_DECLINE",
+   "mandate",
+   0.036
+  ],
+  [
+   "CHECKOUT_ABANDONED",
+   "checkout",
+   0.15
+  ],
+  [
+   "MANDATE_PAUSED",
+   "mandate",
+   0.05
+  ],
+  [
+   "MANDATE_REVOKED",
+   "mandate",
+   0.03
+  ],
+  [
+   "CARD_BLOCKED",
+   "mandate",
+   0.05
+  ]
+ ],
+ "monthly_stats": [
+  {
+   "month": "March-2026",
+   "volume_mn": 22641.14,
+   "value_cr": 2952542.03
+  },
+  {
+   "month": "February-2026",
+   "volume_mn": 20394.2,
+   "value_cr": 2684229.3
+  },
+  {
+   "month": "January-2026",
+   "volume_mn": 21703.46,
+   "value_cr": 2833481.26
+  },
+  {
+   "month": "December-2025",
+   "volume_mn": 21634.67,
+   "value_cr": 2796712.71
+  },
+  {
+   "month": "November-2025",
+   "volume_mn": 20466.98,
+   "value_cr": 2631632.64
+  },
+  {
+   "month": "October-2025",
+   "volume_mn": 20700.92,
+   "value_cr": 2727790.71
+  },
+  {
+   "month": "September-2025",
+   "volume_mn": 19633.43,
+   "value_cr": 2489736.52
+  },
+  {
+   "month": "August-2025",
+   "volume_mn": 20008.31,
+   "value_cr": 2485472.9
+  },
+  {
+   "month": "July-2025",
+   "volume_mn": 19467.95,
+   "value_cr": 2508498.1
+  },
+  {
+   "month": "June-2025",
+   "volume_mn": 18395.01,
+   "value_cr": 2403930.69
+  },
+  {
+   "month": "May-2025",
+   "volume_mn": 18677.45,
+   "value_cr": 2514297.01
+  },
+  {
+   "month": "April-2025",
+   "volume_mn": 17893.42,
+   "value_cr": 2394925.87
+  },
+  {
+   "month": "August-2026",
+   "volume_mn": 15198.45,
+   "value_cr": 1909287.67
+  },
+  {
+   "month": "July-2026",
+   "volume_mn": 23658.35,
+   "value_cr": 2987880.48
+  },
+  {
+   "month": "June-2026",
+   "volume_mn": 22716.08,
+   "value_cr": 2892138.66
+  },
+  {
+   "month": "May-2026",
+   "volume_mn": 23201.95,
+   "value_cr": 2990424.18
+  },
+  {
+   "month": "April-2026",
+   "volume_mn": 22346.8,
+   "value_cr": 2902988.05
+  }
+ ],
+ "daily_stats": [
+  {
+   "date": "July 1, 2026",
+   "volume_mn": 803.91,
+   "value_cr": 130532.57
+  },
+  {
+   "date": "July 2, 2026",
+   "volume_mn": 809.69,
+   "value_cr": 125465.33
+  },
+  {
+   "date": "July 3, 2026",
+   "volume_mn": 785.97,
+   "value_cr": 111514.38
+  },
+  {
+   "date": "July 4, 2026",
+   "volume_mn": 784.05,
+   "value_cr": 113274.04
+  },
+  {
+   "date": "July 5, 2026",
+   "volume_mn": 779.69,
+   "value_cr": 92186.73
+  },
+  {
+   "date": "July 6, 2026",
+   "volume_mn": 755.8,
+   "value_cr": 111881.15
+  },
+  {
+   "date": "July 7, 2026",
+   "volume_mn": 756.23,
+   "value_cr": 106541.71
+  },
+  {
+   "date": "July 8, 2026",
+   "volume_mn": 780.25,
+   "value_cr": 108079.84
+  },
+  {
+   "date": "July 9, 2026",
+   "volume_mn": 774.56,
+   "value_cr": 105535.17
+  },
+  {
+   "date": "July 10, 2026",
+   "volume_mn": 790.86,
+   "value_cr": 105389.45
+  },
+  {
+   "date": "July 11, 2026",
+   "volume_mn": 789.72,
+   "value_cr": 94773.46
+  },
+  {
+   "date": "July 12, 2026",
+   "volume_mn": 779.21,
+   "value_cr": 77318.94
+  },
+  {
+   "date": "July 13, 2026",
+   "volume_mn": 785.02,
+   "value_cr": 102831.27
+  },
+  {
+   "date": "July 14, 2026",
+   "volume_mn": 776.89,
+   "value_cr": 98285.32
+  },
+  {
+   "date": "July 15, 2026",
+   "volume_mn": 784.52,
+   "value_cr": 101320.32
+  },
+  {
+   "date": "July 16, 2026",
+   "volume_mn": 766.78,
+   "value_cr": 94437.93
+  },
+  {
+   "date": "July 17, 2026",
+   "volume_mn": 760.07,
+   "value_cr": 88022.78
+  },
+  {
+   "date": "July 18, 2026",
+   "volume_mn": 762.74,
+   "value_cr": 90828.72
+  },
+  {
+   "date": "July 19, 2026",
+   "volume_mn": 760.89,
+   "value_cr": 71872.78
+  },
+  {
+   "date": "July 20, 2026",
+   "volume_mn": 740.83,
+   "value_cr": 93935.68
+  },
+  {
+   "date": "July 21, 2026",
+   "volume_mn": 725.62,
+   "value_cr": 87535.98
+  },
+  {
+   "date": "July 22, 2026",
+   "volume_mn": 733.73,
+   "value_cr": 87658.93
+  },
+  {
+   "date": "July 23, 2026",
+   "volume_mn": 727.46,
+   "value_cr": 84830.29
+  },
+  {
+   "date": "July 24, 2026",
+   "volume_mn": 742.37,
+   "value_cr": 83349.45
+  },
+  {
+   "date": "July 25, 2026",
+   "volume_mn": 742.35,
+   "value_cr": 80714.08
+  },
+  {
+   "date": "July 26, 2026",
+   "volume_mn": 744.2,
+   "value_cr": 67697.46
+  },
+  {
+   "date": "July 27, 2026",
+   "volume_mn": 741.09,
+   "value_cr": 90954.66
+  },
+  {
+   "date": "July 28, 2026",
+   "volume_mn": 730.07,
+   "value_cr": 87253.63
+  },
+  {
+   "date": "July 29, 2026",
+   "volume_mn": 741.25,
+   "value_cr": 88600.32
+  },
+  {
+   "date": "July 30, 2026",
+   "volume_mn": 732.33,
+   "value_cr": 92466.43
+  },
+  {
+   "date": "July 31, 2026",
+   "volume_mn": 770.2,
+   "value_cr": 112791.68
+  }
+ ],
+ "downtime_incidents": [
+  {
+   "id": 1365,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Airtel Payments Bank Ltd",
+   "incident_count": "2",
+   "downtime_in_hours": "02:28",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 1,
+   "locale": "en"
+  },
+  {
+   "id": 1366,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Bank of Baroda",
+   "incident_count": "2",
+   "downtime_in_hours": "02:58",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 2,
+   "locale": "en"
+  },
+  {
+   "id": 1363,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Bank of India",
+   "incident_count": "4",
+   "downtime_in_hours": "04:01",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 3,
+   "locale": "en"
+  },
+  {
+   "id": 1364,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Central Bank of India",
+   "incident_count": "4",
+   "downtime_in_hours": "14:01",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 4,
+   "locale": "en"
+  },
+  {
+   "id": 1367,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "ICICI Bank",
+   "incident_count": "1",
+   "downtime_in_hours": "01:00",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 5,
+   "locale": "en"
+  },
+  {
+   "id": 1361,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "IDBI Bank",
+   "incident_count": "2",
+   "downtime_in_hours": "02:58",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 6,
+   "locale": "en"
+  },
+  {
+   "id": 1362,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "India Post Payments Bank Ltd",
+   "incident_count": "1",
+   "downtime_in_hours": "02:38",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 7,
+   "locale": "en"
+  },
+  {
+   "id": 1370,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Indusind Bank",
+   "incident_count": "1",
+   "downtime_in_hours": "02:23",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 8,
+   "locale": "en"
+  },
+  {
+   "id": 1371,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Punjab National Bank",
+   "incident_count": "4",
+   "downtime_in_hours": "07:57",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 9,
+   "locale": "en"
+  },
+  {
+   "id": 1368,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "State Bank of India",
+   "incident_count": "5",
+   "downtime_in_hours": "05:39",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 10,
+   "locale": "en"
+  },
+  {
+   "id": 1369,
+   "tab_name": "upi-downtime",
+   "product_name": "upi",
+   "month": "July",
+   "year": "2026",
+   "name_of_the_member_bank": "Union Bank of India",
+   "incident_count": "1",
+   "downtime_in_hours": "00:39",
+   "createdAt": "2026-08-13T08:23:26.709Z",
+   "updatedAt": "2026-08-13T08:23:26.709Z",
+   "publishedAt": null,
+   "sr_no": 11,
+   "locale": "en"
+  }
+ ]
+}

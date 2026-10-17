@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+ledger.sqlite
+.env
+node_modules/
+dashboard/.next/

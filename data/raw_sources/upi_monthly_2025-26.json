@@ -1,0 +1,173 @@
+{
+ "status": 200,
+ "data": {
+  "table_headers": {
+   "id": 169,
+   "main_header_title": null,
+   "headers": [
+    {
+     "order": 1,
+     "id": 809,
+     "header_name": "Month",
+     "isSortable": false,
+     "header_key": "month",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": null,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 2,
+     "id": 810,
+     "header_name": "Volume (In Mn.)",
+     "isSortable": false,
+     "header_key": "total_volume",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 3,
+     "id": 812,
+     "header_name": "Avg. Daily Volume (In Mn.)",
+     "isSortable": false,
+     "header_key": "avg_volume",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 4,
+     "id": 811,
+     "header_name": "Value (In Cr.)",
+     "isSortable": false,
+     "header_key": "total_value",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 5,
+     "id": 813,
+     "header_name": "Avg. Daily Value (In Cr.)",
+     "isSortable": false,
+     "header_key": "avg_value",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    }
+   ]
+  },
+  "totalCount": 12,
+  "results": [
+   {
+    "month": "March-2026",
+    "total_volume": "22641.14",
+    "total_value": "2952542.03",
+    "avg_volume": 730.3594,
+    "avg_value": 95243.2913
+   },
+   {
+    "month": "February-2026",
+    "total_volume": "20394.20",
+    "total_value": "2684229.30",
+    "avg_volume": 728.3643,
+    "avg_value": 95865.3321
+   },
+   {
+    "month": "January-2026",
+    "total_volume": "21703.46",
+    "total_value": "2833481.26",
+    "avg_volume": 700.1116,
+    "avg_value": 91402.6213
+   },
+   {
+    "month": "December-2025",
+    "total_volume": "21634.67",
+    "total_value": "2796712.71",
+    "avg_volume": 697.8925,
+    "avg_value": 90216.539
+   },
+   {
+    "month": "November-2025",
+    "total_volume": "20466.98",
+    "total_value": "2631632.64",
+    "avg_volume": 682.2326,
+    "avg_value": 87721.088
+   },
+   {
+    "month": "October-2025",
+    "total_volume": "20700.92",
+    "total_value": "2727790.71",
+    "avg_volume": 667.7716,
+    "avg_value": 87993.2487
+   },
+   {
+    "month": "September-2025",
+    "total_volume": "19633.43",
+    "total_value": "2489736.52",
+    "avg_volume": 654.4478,
+    "avg_value": 82991.2173
+   },
+   {
+    "month": "August-2025",
+    "total_volume": "20008.31",
+    "total_value": "2485472.90",
+    "avg_volume": 645.4294,
+    "avg_value": 80176.5452
+   },
+   {
+    "month": "July-2025",
+    "total_volume": "19467.95",
+    "total_value": "2508498.10",
+    "avg_volume": 627.9983,
+    "avg_value": 80919.2935
+   },
+   {
+    "month": "June-2025",
+    "total_volume": "18395.01",
+    "total_value": "2403930.69",
+    "avg_volume": 613.1669,
+    "avg_value": 80131.023
+   },
+   {
+    "month": "May-2025",
+    "total_volume": "18677.45",
+    "total_value": "2514297.01",
+    "avg_volume": 602.4985,
+    "avg_value": 81106.3552
+   },
+   {
+    "month": "April-2025",
+    "total_volume": "17893.42",
+    "total_value": "2394925.87",
+    "avg_volume": 596.4475,
+    "avg_value": 79830.8623
+   }
+  ]
+ }
+}

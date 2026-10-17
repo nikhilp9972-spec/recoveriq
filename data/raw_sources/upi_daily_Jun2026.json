@@ -1,0 +1,308 @@
+{
+ "status": 200,
+ "data": {
+  "table_headers": {
+   "id": 119,
+   "main_header_title": null,
+   "headers": [
+    {
+     "order": 1,
+     "id": 635,
+     "header_name": "Day",
+     "isSortable": false,
+     "header_key": "npci_day",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": null,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 2,
+     "id": 636,
+     "header_name": "Volume (In Mn.)",
+     "isSortable": false,
+     "header_key": "upi_volume_mn",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 3,
+     "id": 637,
+     "header_name": "Value (In Cr.)",
+     "isSortable": false,
+     "header_key": "upi_value_crores",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    }
+   ]
+  },
+  "totalCount": 31,
+  "results": [
+   {
+    "npci_day": "June 01, 2026",
+    "row_number": 152,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "784.73",
+    "upi_value_crores": "126017.27"
+   },
+   {
+    "npci_day": "June 02, 2026",
+    "row_number": 153,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "795.56",
+    "upi_value_crores": "121338.4"
+   },
+   {
+    "npci_day": "June 03, 2026",
+    "row_number": 154,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "785.13",
+    "upi_value_crores": "115092.87"
+   },
+   {
+    "npci_day": "June 04, 2026",
+    "row_number": 155,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "764.08",
+    "upi_value_crores": "111592.07"
+   },
+   {
+    "npci_day": "June 05, 2026",
+    "row_number": 156,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "776.48",
+    "upi_value_crores": "108318.08"
+   },
+   {
+    "npci_day": "June 06, 2026",
+    "row_number": 157,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "775.38",
+    "upi_value_crores": "103888.84"
+   },
+   {
+    "npci_day": "June 07, 2026",
+    "row_number": 158,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "773.73",
+    "upi_value_crores": "83853.82"
+   },
+   {
+    "npci_day": "June 08, 2026",
+    "row_number": 159,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "763.17",
+    "upi_value_crores": "106344.92"
+   },
+   {
+    "npci_day": "June 09, 2026",
+    "row_number": 160,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "771.53",
+    "upi_value_crores": "107514.2"
+   },
+   {
+    "npci_day": "June 10, 2026",
+    "row_number": 161,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "791.63",
+    "upi_value_crores": "110285.66"
+   },
+   {
+    "npci_day": "June 11, 2026",
+    "row_number": 162,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "765.4",
+    "upi_value_crores": "102421.42"
+   },
+   {
+    "npci_day": "June 12, 2026",
+    "row_number": 163,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "770.99",
+    "upi_value_crores": "96505.61"
+   },
+   {
+    "npci_day": "June 13, 2026",
+    "row_number": 164,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "761.05",
+    "upi_value_crores": "89190.81"
+   },
+   {
+    "npci_day": "June 14, 2026",
+    "row_number": 165,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "762.82",
+    "upi_value_crores": "76045.15"
+   },
+   {
+    "npci_day": "June 15, 2026",
+    "row_number": 166,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "770.58",
+    "upi_value_crores": "100667.03"
+   },
+   {
+    "npci_day": "June 16, 2026",
+    "row_number": 167,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "760.1",
+    "upi_value_crores": "95816.46"
+   },
+   {
+    "npci_day": "June 17, 2026",
+    "row_number": 168,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "759.66",
+    "upi_value_crores": "93717.69"
+   },
+   {
+    "npci_day": "June 18, 2026",
+    "row_number": 169,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "740.86",
+    "upi_value_crores": "90299.09"
+   },
+   {
+    "npci_day": "June 19, 2026",
+    "row_number": 170,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "737.27",
+    "upi_value_crores": "87612.81"
+   },
+   {
+    "npci_day": "June 20, 2026",
+    "row_number": 171,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "755.63",
+    "upi_value_crores": "90413.22"
+   },
+   {
+    "npci_day": "June 21, 2026",
+    "row_number": 172,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "752.2",
+    "upi_value_crores": "72494.69"
+   },
+   {
+    "npci_day": "June 22, 2026",
+    "row_number": 173,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "741.41",
+    "upi_value_crores": "91881.57"
+   },
+   {
+    "npci_day": "June 23, 2026",
+    "row_number": 174,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "726.04",
+    "upi_value_crores": "88769.18"
+   },
+   {
+    "npci_day": "June 24, 2026",
+    "row_number": 175,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "737.42",
+    "upi_value_crores": "88749.07"
+   },
+   {
+    "npci_day": "June 25, 2026",
+    "row_number": 176,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "736.47",
+    "upi_value_crores": "91889.96"
+   },
+   {
+    "npci_day": "June 26, 2026",
+    "row_number": 177,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "717.01",
+    "upi_value_crores": "78222.5"
+   },
+   {
+    "npci_day": "June 27, 2026",
+    "row_number": 178,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "727.88",
+    "upi_value_crores": "79907"
+   },
+   {
+    "npci_day": "June 28, 2026",
+    "row_number": 179,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "727.63",
+    "upi_value_crores": "67383.64"
+   },
+   {
+    "npci_day": "June 29, 2026",
+    "row_number": 180,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "727.11",
+    "upi_value_crores": "95436.83"
+   },
+   {
+    "npci_day": "June 30, 2026",
+    "row_number": 181,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "757.13",
+    "upi_value_crores": "120468.8"
+   },
+   {
+    "npci_day": "Total",
+    "row_number": null,
+    "month": "June",
+    "year": "2026",
+    "upi_volume_mn": "22716.08",
+    "upi_value_crores": "2892138.66",
+    "isTotal": true
+   }
+  ]
+ }
+}

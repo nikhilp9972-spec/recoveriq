@@ -1,0 +1,6 @@
+# Core evaluation needs only numpy (stdlib covers the rest).
+numpy>=1.24
+
+# Optional — live paths only:
+# anthropic        # USE_CLAUDE=1 rationale/nudge drafting
+# fastapi,uvicorn  # Day 8-9: Razorpay webhook receiver

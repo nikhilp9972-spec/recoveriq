@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paisa Wapas Console</title>
+<style>
+  :root{
+    color-scheme: dark;
+    --page:#0d0d0d; --surface:#1a1a19; --border:rgba(255,255,255,.10);
+    --ink:#ffffff; --ink-2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835;
+    --s-agent:#3987e5; --s-cron:#d95926; --s-imm:#199e70;
+    --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{
+    background:var(--page); color:var(--ink);
+    font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+    padding:20px 24px 48px; min-height:100vh;
+  }
+  .wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+
+  /* ---------- header ---------- */
+  header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:4px 2px}
+  .mark{width:34px;height:34px;border-radius:9px;background:var(--s-agent);
+    display:grid;place-items:center;font-weight:800;font-size:17px;color:#fff}
+  .brand b{font-size:17px;letter-spacing:-.01em}
+  .brand span{display:block;font-size:12px;color:var(--muted)}
+  header .spacer{flex:1}
+  .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);
+    border-radius:999px;padding:4px 11px;font-size:12px;color:var(--ink-2);background:var(--surface)}
+  .pill .dot{width:7px;height:7px;border-radius:50%}
+  .pill.ok .dot{background:var(--good)}
+  .pill.mode .dot{background:var(--warning)}
+
+  /* ---------- cards & grid ---------- */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  .card h2{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.02em;margin-bottom:2px}
+  .card .sub{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .kpi .value{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:6px}
+  .kpi .value.hero{color:var(--s-agent);font-size:34px}
+  .kpi .delta{font-size:12.5px;margin-top:4px;color:var(--ink-2)}
+  .kpi .delta.up{color:var(--good)}
+  .row2{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+  .row3{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .explorer{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+  @media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}
+    .row2,.row3,.explorer{grid-template-columns:1fr}}
+
+  /* ---------- charts ---------- */
+  svg text{font:11.5px system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-variant-numeric:tabular-nums;fill:var(--muted)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-bottom:8px}
+  .legend .sw{display:inline-block;width:10px;height:10px;border-radius:3px;
+    margin-right:6px;vertical-align:-1px}
+  #tooltip{position:fixed;pointer-events:none;z-index:10;background:#242423;
+    border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12px;
+    color:var(--ink-2);box-shadow:0 6px 20px rgba(0,0,0,.5);display:none;max-width:260px}
+  #tooltip b{color:var(--ink)}
+  #tooltip .trow{display:flex;align-items:center;gap:7px;margin-top:3px;
+    font-variant-numeric:tabular-nums}
+
+  /* mini comparison table */
+  table.mini{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px}
+  table.mini th{color:var(--muted);font-weight:500;text-align:right;padding:5px 8px;
+    border-bottom:1px solid var(--grid)}
+  table.mini th:first-child{text-align:left}
+  table.mini td{padding:5px 8px;text-align:right;color:var(--ink-2);
+    font-variant-numeric:tabular-nums;border-bottom:1px solid var(--grid)}
+  table.mini td:first-child{text-align:left;color:var(--ink)}
+  table.mini tr:last-child td{border-bottom:none}
+
+  /* heatmap */
+  .hm{display:grid;gap:2px;margin-top:4px}
+  .hm .cell{border-radius:4px;height:34px;display:grid;place-items:center;
+    font-size:11.5px;font-variant-numeric:tabular-nums;cursor:default}
+  .hm .rowlab,.hm .collab{background:none;font-size:10.5px;color:var(--muted);
+    display:flex;align-items:center}
+  .hm .collab{justify-content:center;text-align:center;line-height:1.15}
+  .hm .empty{background:var(--page);border:1px solid var(--grid);color:var(--baseline)}
+
+  /* guardrails */
+  .glist{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .gitem{display:flex;gap:11px;align-items:center}
+  .gicon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+    font-size:14px;flex:none;border:1px solid var(--border)}
+  .gitem .t{font-size:13px;color:var(--ink)}
+  .gitem .d{font-size:12px;color:var(--muted)}
+  .gitem .n{margin-left:auto;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+
+  /* case explorer */
+  .cases{max-height:430px;overflow-y:auto;margin:6px -6px 0;padding:0 6px}
+  .crow{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+    padding:9px 10px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+  .crow:hover{background:rgba(255,255,255,.04)}
+  .crow.sel{background:rgba(57,135,229,.12);border-color:rgba(57,135,229,.35)}
+  .crow .cid{font-size:12px;color:var(--muted)}
+  .crow .cause{font-size:13px;color:var(--ink)}
+  .crow .amt{font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;
+    padding:3px 8px;border-radius:999px;border:1px solid var(--border);color:var(--ink-2)}
+  .badge.rec{color:var(--good);border-color:rgba(12,163,12,.4)}
+  .badge.hard{color:var(--critical);border-color:rgba(208,59,59,.4)}
+  .badge.exh{color:var(--serious);border-color:rgba(236,131,90,.4)}
+
+  /* audit timeline (the workflow, made visible) */
+  .tl{margin-top:8px;position:relative;padding-left:22px;max-height:430px;overflow-y:auto}
+  .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;
+    background:var(--baseline);border-radius:2px}
+  .ev{position:relative;padding:0 0 16px 8px}
+  .ev::before{content:"";position:absolute;left:-19px;top:5px;width:8px;height:8px;
+    border-radius:50%;background:var(--muted);outline:3px solid var(--surface)}
+  .ev.agent::before{background:var(--s-agent)}
+  .ev.guardrail::before{background:var(--warning)}
+  .ev.win::before{background:var(--good)}
+  .ev.loss::before{background:var(--critical)}
+  .ev .when{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .ev .what{font-size:13.5px;color:var(--ink);margin:1px 0}
+  .ev .who{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    padding:1px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-2);margin-right:6px}
+  .ev .meta{font-size:12px;color:var(--muted)}
+  footer{font-size:12px;color:var(--muted);margin-top:8px;
+    border-top:1px solid var(--border);padding-top:18px;
+    display:flex;gap:18px;flex-wrap:wrap;align-items:baseline}
+  footer b{color:var(--ink-2);font-weight:600}
+  footer .grow{flex:1;min-width:220px}
+  footer p{margin:3px 0 0;max-width:70ch}
+  footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--border)}
+  footer a:hover{color:var(--s-agent);border-bottom-color:var(--s-agent)}
+  footer .links{display:flex;gap:14px;flex-wrap:wrap}
+  @media (prefers-reduced-motion:no-preference){
+    .card{animation:rise .35s ease both}
+    @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark">₹</div>
+    <div class="brand"><b>Paisa Wapas</b><span>autonomous revenue recovery · console</span></div>
+    <div class="spacer"></div>
+    <span class="pill mode"><span class="dot"></span>Razorpay test-mode</span>
+    <span class="pill" id="batchPill"></span>
+    <span class="pill ok"><span class="dot"></span>0 guardrail violations</span>
+  </header>
+
+  <section class="kpis" id="kpis"></section>
+
+  <div class="row2">
+    <div class="card">
+      <h2>Money recovered across the batch</h2>
+      <div class="sub">Cumulative ₹ recovered as cases arrive · identical frozen batch and seeded simulator for all three policies</div>
+      <div class="legend" id="lineLegend"></div>
+      <svg id="lineChart" width="100%" height="300" role="img"
+           aria-label="Cumulative rupees recovered: agent versus two baselines"></svg>
+      <table class="mini" id="miniTable"></table>
+    </div>
+    <div class="card">
+      <h2>What the agent learned</h2>
+      <div class="sub">P(action recovers the money), learned from outcomes alone — the simulator's dynamics are hidden from the agent</div>
+      <div class="hm" id="heatmap"></div>
+      <div class="sub" style="margin-top:10px">Darker → untested or low; brighter → learned to work. “—” = never worth trying.</div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="card">
+      <h2>Honest exceptions — what it could not recover</h2>
+      <div class="sub">Every unrecovered case is closed with a reason, not silently dropped</div>
+      <svg id="excChart" width="100%" height="170" role="img" aria-label="Unrecovered cases by close reason"></svg>
+    </div>
+    <div class="card">
+      <h2>Guardrails in action</h2>
+      <div class="sub">Compliance is enforced outside the learner — policy.json, not prompts</div>
+      <div class="glist" id="glist"></div>
+    </div>
+  </div>
+
+  <div class="explorer">
+    <div class="card">
+      <h2>Case explorer</h2>
+      <div class="sub">A curated slice of the batch — click a case to replay its workflow</div>
+      <div class="cases" id="caseList"></div>
+    </div>
+    <div class="card">
+      <h2 id="tlTitle">Workflow replay</h2>
+      <div class="sub" id="tlSub"></div>
+      <div class="tl" id="timeline"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="grow">
+      <b>Paisa Wapas</b> — autonomous revenue recovery for failed Indian recurring payments.
+      Razorpay AI Buildathon, Track 03.
+      <p>Every number on this page is reproducible: <code>make evaluate</code> →
+        eval/results.json + ledger.sqlite → this console. Synthetic data and test-mode
+        APIs only — no real customer data, no live money.</p>
+      <p>Failure mix, bank mix and downtime windows are grounded in NPCI's published UPI
+        statistics — refresh them with <code>make sources</code>. See
+        <a href="https://www.npci.org.in/product/ecosystem-statistics/upi" target="_blank"
+           rel="noopener">NPCI ecosystem statistics</a>.</p>
+    </div>
+    <div class="links">
+      <a href="../CHANGELOG.md">Changelog</a>
+      <a href="../policy.json">Compliance policy</a>
+    </div>
+  </footer>
+</div>
+<div id="tooltip"></div>
+
+<script src="data.js"></script>
+<script>
+const P = DATA.policies;
+const A = P.paisa_wapas_agent, C = P.baseline_cron_24h, I = P.baseline_immediate;
+const SERIES = [
+  {key:"paisa_wapas_agent",  name:"Paisa Wapas agent", color:"var(--s-agent)"},
+  {key:"baseline_cron_24h",  name:"Cron retry ×3 (industry default)", color:"var(--s-cron)"},
+  {key:"baseline_immediate", name:"Retry immediately ×3", color:"var(--s-imm)"},
+];
+const inr = v => "₹" + Math.round(v).toLocaleString("en-IN");
+const lakh = v => "₹" + (v/100000).toFixed(v>=1e6?0:1) + "L";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tt = document.getElementById("tooltip");
+function showTT(html, x, y){ tt.innerHTML = html; tt.style.display = "block";
+  const r = tt.getBoundingClientRect();
+  tt.style.left = Math.min(x + 14, innerWidth - r.width - 10) + "px";
+  tt.style.top  = Math.min(y + 14, innerHeight - r.height - 10) + "px"; }
+function hideTT(){ tt.style.display = "none"; }
+
+/* ---------- header + KPIs ---------- */
+document.getElementById("batchPill").textContent =
+  `${DATA.batch.n.toLocaleString("en-IN")} failed payments · ${lakh(DATA.batch.at_risk)} at risk`;
+const attemptsSaved = Math.round(100 * (C.attempts - A.attempts) / C.attempts);
+document.getElementById("kpis").innerHTML = [
+  {label:"At risk in batch", value:lakh(DATA.batch.at_risk),
+   delta:`${DATA.batch.n.toLocaleString("en-IN")} failed payments`},
+  {label:"Recovered by agent", value:lakh(A.recovered), hero:true,
+   delta:`↑ +${Math.round(100*(A.recovered-C.recovered)/C.recovered)}% vs merchant cron`, up:true},
+  {label:"Recovery rate", value:A.recovery_rate_pct + "%",
+   delta:`↑ +${(A.recovery_rate_pct - C.recovery_rate_pct).toFixed(1)}pp vs baseline ${C.recovery_rate_pct}%`, up:true},
+  {label:"Attempts used", value:A.attempts.toLocaleString("en-IN"),
+   delta:`↓ ${attemptsSaved}% fewer than baseline`, up:true},
+].map(k => `<div class="card kpi"><div class="label">${k.label}</div>
+  <div class="value${k.hero?" hero":""}">${k.value}</div>
+  <div class="delta${k.up?" up":""}">${k.delta}</div></div>`).join("");
+
+/* ---------- cumulative recovery line chart ---------- */
+document.getElementById("lineLegend").innerHTML = SERIES.map(s =>
+  `<span><span class="sw" style="background:${s.color}"></span>${s.name}</span>`).join("");
+(function(){
+  const svg = document.getElementById("lineChart");
+  const W = svg.clientWidth || 720, H = 300, m = {t:14, r:150, b:26, l:44};
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const yMax = Math.ceil(A.recovered / 5e5) * 5e5;
+  const nPts = A.curve.length;
+  const X = i => m.l + (W - m.l - m.r) * i / (nPts - 1);
+  const Y = v => H - m.b - (H - m.t - m.b) * v / yMax;
+  let g = "";
+  for (let v = 0; v <= yMax; v += 5e5) {
+    g += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"
+           stroke="${v?"var(--grid)":"var(--baseline)"}" stroke-width="1"/>
+          <text x="${m.l-8}" y="${Y(v)+4}" text-anchor="end">${v/1e5}L</text>`;
+  }
+  for (let c = 0; c <= 1000; c += 250) {
+    const i = c / 1000 * (nPts - 1);
+    g += `<text x="${X(i)}" y="${H-8}" text-anchor="middle">${c}</text>`;
+  }
+  for (const s of SERIES) {
+    const pts = P[s.key].curve.map((v,i) => `${X(i)},${Y(v)}`).join(" ");
+    const last = P[s.key].curve[nPts-1];
+    g += `<polyline points="${pts}" fill="none" stroke="${s.color}"
+            stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="${X(nPts-1)}" cy="${Y(last)}" r="4" fill="${s.color}"/>
+          <text x="${X(nPts-1)+9}" y="${Y(last)+4}" style="fill:var(--ink-2)">${lakh(last)}</text>`;
+  }
+  g += `<line id="xhair" y1="${m.t}" y2="${H-m.b}" stroke="var(--ink-2)"
+         stroke-width="1" stroke-dasharray="3 3" visibility="hidden"/>`;
+  svg.innerHTML = g;
+  const xhair = svg.querySelector("#xhair");
+  svg.addEventListener("mousemove", e => {
+    const r = svg.getBoundingClientRect();
+    const px = (e.clientX - r.left) * W / r.width;
+    if (px < m.l || px > W - m.r) { xhair.setAttribute("visibility","hidden"); hideTT(); return; }
+    const i = Math.round((px - m.l) / (W - m.l - m.r) * (nPts - 1));
+    xhair.setAttribute("x1", X(i)); xhair.setAttribute("x2", X(i));
+    xhair.setAttribute("visibility","visible");
+    const caseNo = Math.round(i / (nPts-1) * 1000);
+    showTT(`<b>after ${caseNo} cases</b>` + SERIES.map(s =>
+      `<div class="trow"><span class="sw" style="background:${s.color};width:9px;height:9px;border-radius:2px;display:inline-block"></span>
+       ${esc(s.name.split(" (")[0])}: <b>${inr(P[s.key].curve[i])}</b></div>`).join(""),
+      e.clientX, e.clientY);
+  });
+  svg.addEventListener("mouseleave", () => { xhair.setAttribute("visibility","hidden"); hideTT(); });
+})();
+document.getElementById("miniTable").innerHTML =
+  `<tr><th>Policy</th><th>Recovered</th><th>Rate</th><th>Attempts</th><th>₹ / attempt</th></tr>` +
+  SERIES.map(s => { const p = P[s.key]; return `<tr>
+    <td><span class="sw" style="background:${s.color};display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px"></span>${s.name}</td>
+    <td>${inr(p.recovered)}</td><td>${p.recovery_rate_pct}%</td>
+    <td>${p.attempts.toLocaleString("en-IN")}</td>
+    <td>${inr(p.rupees_recovered_per_attempt)}</td></tr>`; }).join("");
+
+/* ---------- learned-policy heatmap (sequential blue ramp) ---------- */
+(function(){
+  const RAMP = ["#0d366b","#104281","#184f95","#1c5cab","#256abf","#2a78d6",
+                "#3987e5","#5598e7","#6da7ec","#86b6ef"]; // dark→bright = low→high
+  const ARM_SHORT = {RETRY_NOW:"Retry now", RETRY_NEXT_MORNING:"Next morning",
+    RETRY_SALARY_DAY:"Salary day", NUDGE_LINK:"Nudge", VOICE_CALL:"Voice"};
+  const CAUSE_SHORT = {INSUFFICIENT_FUNDS:"Insufficient funds", BANK_DOWNTIME:"Bank downtime",
+    LIMIT_EXCEEDED:"Limit exceeded", TECHNICAL_DECLINE:"Technical decline",
+    USER_DROPPED:"Abandoned checkout", MANDATE_PAUSED:"Mandate paused"};
+  const hm = document.getElementById("heatmap");
+  const arms = DATA.learned.arms;
+  hm.style.gridTemplateColumns = `98px repeat(${arms.length},1fr)`;
+  let html = `<div class="rowlab"></div>` +
+    arms.map(a => `<div class="collab">${ARM_SHORT[a]}</div>`).join("");
+  DATA.learned.causes.forEach((cause, r) => {
+    html += `<div class="rowlab">${CAUSE_SHORT[cause]}</div>`;
+    arms.forEach((arm, c) => {
+      const p = DATA.learned.matrix[r][c];
+      if (p == null) { html += `<div class="cell empty">—</div>`; return; }
+      const col = RAMP[Math.min(9, Math.floor(p * 10))];
+      const ink = p >= 0.55 ? "#0b0b0b" : "#ffffff";
+      html += `<div class="cell" style="background:${col};color:${ink}"
+        data-tt="<b>${CAUSE_SHORT[cause]}</b><br>${ARM_SHORT[arm]}: learned P(recover) = <b>${p.toFixed(2)}</b>">${p.toFixed(2)}</div>`;
+    });
+  });
+  hm.innerHTML = html;
+  hm.addEventListener("mousemove", e => {
+    const c = e.target.closest(".cell[data-tt]");
+    c ? showTT(c.dataset.tt, e.clientX, e.clientY) : hideTT();
+  });
+  hm.addEventListener("mouseleave", hideTT);
+})();
+
+/* ---------- exceptions bar chart (single hue) ---------- */
+(function(){
+  const NAMES = {caps_exhausted:"Compliance caps exhausted",
+    hard_decline:"Hard decline — correctly refused to retry",
+    horizon_reached:"Evaluation horizon reached",
+    expected_value_below_cost:"No action worth its cost"};
+  const rows = Object.entries(DATA.exceptions).sort((a,b) => b[1]-a[1]);
+  const svg = document.getElementById("excChart");
+  const W = svg.clientWidth || 560, rowH = 38, H = rows.length * rowH + 10;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H);
+  const max = rows[0][1], bw = W - 340;
+  svg.innerHTML = rows.map(([k, n], i) => {
+    const y = i * rowH + 8, w = Math.max(4, bw * n / max);
+    return `<text x="0" y="${y+15}" style="fill:var(--ink-2)">${NAMES[k]||k}</text>
+      <rect x="300" y="${y}" width="${w}" height="20" rx="4" fill="var(--s-agent)"/>
+      <text x="${300+w+8}" y="${y+15}" style="fill:var(--ink)">${n}</text>`;
+  }).join("");
+})();
+
+/* ---------- guardrails ---------- */
+(function(){
+  const G = DATA.guardrails, hard = DATA.exceptions.hard_decline || 0;
+  const items = [
+    {icon:"🕐", color:"var(--warning)", n:G.CONTACT_WINDOW_CLAMP||0,
+     t:"Contact moved into the 8AM–9PM window", d:"Nudges & calls re-scheduled, never dropped"},
+    {icon:"✋", color:"var(--serious)", n:G.HUMAN_APPROVAL_REQUIRED||0,
+     t:"Human approval gates above ₹50,000", d:"Bounded autonomy on high-value actions"},
+    {icon:"🔕", color:"var(--critical)", n:G.CUSTOMER_OPT_OUT||0,
+     t:"Opt-outs honored instantly", d:"All further contact halted on STOP"},
+    {icon:"🛑", color:"var(--good)", n:hard,
+     t:"Capped retries never wasted on hard declines", d:"Revoked/blocked instruments closed at diagnosis"},
+  ];
+  document.getElementById("glist").innerHTML = items.map(i =>
+    `<div class="gitem"><div class="gicon">${i.icon}</div>
+      <div><div class="t">${i.t}</div><div class="d">${i.d}</div></div>
+      <div class="n" style="color:${i.color}">${i.n.toLocaleString("en-IN")}</div></div>`).join("");
+})();
+
+/* ---------- case explorer + workflow replay ---------- */
+const CAUSE_LABEL = {INSUFFICIENT_FUNDS:"Insufficient funds", BANK_DOWNTIME:"Bank downtime",
+  LIMIT_EXCEEDED:"Limit exceeded", TECHNICAL_DECLINE:"Technical decline",
+  USER_DROPPED:"Abandoned checkout", MANDATE_PAUSED:"Mandate paused", HARD_DECLINE:"Hard decline"};
+function outcomeBadge(c){
+  if (c.outcome === "RECOVERED") return `<span class="badge rec">✓ Recovered</span>`;
+  if (c.close_reason === "hard_decline") return `<span class="badge hard">✕ Unrecoverable</span>`;
+  return `<span class="badge exh">⊘ Closed</span>`;
+}
+const when = h => `Day ${Math.floor(h/24)} · ${String(h%24).padStart(2,"0")}:00`;
+function evText(ev){
+  const ARM = {RETRY_NOW:"Retried immediately", RETRY_NEXT_MORNING:"Retried next morning",
+    RETRY_SALARY_DAY:"Waited for salary day, then retried",
+    NUDGE_LINK:"Sent Hinglish nudge with payment link", VOICE_CALL:"Placed Hinglish voice call"};
+  const e = ev.event;
+  if (e === "DIAGNOSED") return {cls:"agent", what:`Diagnosed: ${CAUSE_LABEL[ev.detail.root_cause]}`,
+    meta: ev.detail.rationale};
+  if (e === "CASE_RECOVERED") return {cls:"win", what:`Money recovered — ${inr(ev.detail.amount)}`, meta:""};
+  if (e === "CASE_CLOSED") return {cls: ev.detail.reason==="hard_decline" ? "loss" : "guardrail",
+    what:`Case closed: ${(ev.detail.reason||"").replace(/_/g," ")}`, meta:""};
+  if (e === "CONTACT_WINDOW_CLAMP") return {cls:"guardrail",
+    what:"Guardrail: contact moved into permitted hours", meta:`re-scheduled to ${when(ev.detail.moved_to_hour)}`};
+  if (e === "HUMAN_APPROVAL_REQUIRED") return {cls:"guardrail",
+    what:`Guardrail: human approval for ${inr(ev.detail.amount)}`, meta:"approval granted (simulated)"};
+  if (e === "CUSTOMER_OPT_OUT") return {cls:"guardrail",
+    what:"Customer opted out — all contact halted", meta:""};
+  const m = e.match(/^(.+)_(RECOVERED|FAILED)$/);
+  if (m) {
+    const ok = m[2] === "RECOVERED";
+    const evm = ev.detail.expected_value != null
+      ? `bandit EV ${inr(ev.detail.expected_value)} · sampled p ${ev.detail.sampled_p}` : "";
+    return {cls: ok ? "win" : "agent",
+      what:`${ARM[m[1]]||m[1]} — ${ok ? "payment succeeded" : "failed"}`, meta: evm};
+  }
+  return {cls:"agent", what:e, meta:""};
+}
+function showCase(c){
+  document.querySelectorAll(".crow").forEach(el =>
+    el.classList.toggle("sel", el.dataset.id === c.case_id));
+  document.getElementById("tlTitle").textContent = `Workflow replay — ${c.case_id}`;
+  document.getElementById("tlSub").textContent =
+    `${CAUSE_LABEL[c.root_cause]} · ${inr(c.amount)} · ${c.outcome.replace(/_/g," ").toLowerCase()}`;
+  document.getElementById("timeline").innerHTML = c.events.map(ev => {
+    const t = evText(ev);
+    return `<div class="ev ${t.cls}"><div class="when">${when(ev.at_hour)}</div>
+      <div class="what"><span class="who">${ev.actor}</span>${esc(t.what)}</div>
+      ${t.meta ? `<div class="meta">${esc(t.meta)}</div>` : ""}</div>`;
+  }).join("");
+}
+document.getElementById("caseList").innerHTML = DATA.cases.map(c =>
+  `<div class="crow" data-id="${c.case_id}">
+     <div><div class="cause">${CAUSE_LABEL[c.root_cause]}</div><div class="cid">${c.case_id}</div></div>
+     <div class="amt">${inr(c.amount)}</div>${outcomeBadge(c)}</div>`).join("");
+document.getElementById("caseList").addEventListener("click", e => {
+  const row = e.target.closest(".crow");
+  if (row) showCase(DATA.cases.find(c => c.case_id === row.dataset.id));
+});
+const star = DATA.cases.find(c => c.outcome === "RECOVERED" &&
+  c.events.some(ev => ev.event.startsWith("RETRY_SALARY_DAY"))) || DATA.cases[0];
+showCase(star);
+</script>
+</body>
+</html>

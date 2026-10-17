@@ -1,0 +1,10 @@
+{
+  "_comment": "Compliance policy in force. Versioned; guardrails.py enforces this OUTSIDE the learning agent so regulation changes never require retraining. Caps modeled on RBI/NPCI e-mandate re-presentation norms — see data/SOURCES.md.",
+  "version": "2026-08-21",
+  "max_debit_representations": 3,
+  "max_nudges": 2,
+  "max_voice_calls": 1,
+  "contact_window_hours": [8, 21],
+  "human_approval_amount_ceiling": 50000,
+  "halt_on_opt_out": true
+}

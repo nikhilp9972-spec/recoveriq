@@ -1,0 +1,124 @@
+{
+ "status": 200,
+ "data": {
+  "table_headers": {
+   "id": 169,
+   "main_header_title": null,
+   "headers": [
+    {
+     "order": 1,
+     "id": 809,
+     "header_name": "Month",
+     "isSortable": false,
+     "header_key": "month",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": null,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 2,
+     "id": 810,
+     "header_name": "Volume (In Mn.)",
+     "isSortable": false,
+     "header_key": "total_volume",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 3,
+     "id": 812,
+     "header_name": "Avg. Daily Volume (In Mn.)",
+     "isSortable": false,
+     "header_key": "avg_volume",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 4,
+     "id": 811,
+     "header_name": "Value (In Cr.)",
+     "isSortable": false,
+     "header_key": "total_value",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    },
+    {
+     "order": 5,
+     "id": 813,
+     "header_name": "Avg. Daily Value (In Cr.)",
+     "isSortable": false,
+     "header_key": "avg_value",
+     "isChildExists": false,
+     "isMergedCells": null,
+     "isNumberFormattingRequired": true,
+     "columnSpan": null,
+     "maxDecimalLimit": null,
+     "isExternalLink": null,
+     "link_key": null,
+     "sub_headers": []
+    }
+   ]
+  },
+  "totalCount": 5,
+  "results": [
+   {
+    "month": "August-2026",
+    "total_volume": "15198.45",
+    "total_value": "1909287.67",
+    "avg_volume": 799.9184,
+    "avg_value": 100488.8247
+   },
+   {
+    "month": "July-2026",
+    "total_volume": "23658.35",
+    "total_value": "2987880.48",
+    "avg_volume": 763.1726,
+    "avg_value": 96383.2413
+   },
+   {
+    "month": "June-2026",
+    "total_volume": "22716.08",
+    "total_value": "2892138.66",
+    "avg_volume": 757.2027,
+    "avg_value": 96404.622
+   },
+   {
+    "month": "May-2026",
+    "total_volume": "23201.95",
+    "total_value": "2990424.18",
+    "avg_volume": 748.45,
+    "avg_value": 96465.2961
+   },
+   {
+    "month": "April-2026",
+    "total_volume": "22346.80",
+    "total_value": "2902988.05",
+    "avg_volume": 744.8932,
+    "avg_value": 96766.2683
+   }
+  ]
+ }
+}

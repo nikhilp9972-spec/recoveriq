@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paisa Wapas</title>
+<style>
+  :root{
+    color-scheme: dark;
+    --page:#0d0d0d; --surface:#1a1a19; --surface-2:#242423;
+    --border:rgba(255,255,255,.10);
+    --ink:#ffffff; --ink-2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835;
+    --accent:#3987e5; --good:#0ca30c; --warning:#fab219;
+    --serious:#ec835a; --critical:#d03b3b;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--page);color:var(--ink);
+    font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+    padding:0 0 40px;min-height:100vh}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--border);
+    padding:12px 26px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .mark{width:36px;height:36px;border-radius:10px;background:var(--accent);
+    display:grid;place-items:center;font-weight:800;font-size:18px}
+  .brand b{font-size:16.5px;letter-spacing:-.01em}
+  .brand span{display:block;font-size:11.5px;color:var(--muted)}
+  .topbar .spacer{flex:1}
+  .pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);
+    border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--ink-2);
+    background:var(--surface);font-variant-numeric:tabular-nums}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+  .pill.live .dot{background:var(--good);box-shadow:0 0 6px var(--good)}
+  .seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}
+  .seg button{border:none;border-radius:0;background:var(--surface);padding:6px 13px;font-size:12px}
+  .seg button.on{background:var(--accent);color:#fff;font-weight:600}
+  button{font:inherit;border-radius:9px;border:1px solid var(--border);
+    background:var(--surface);color:var(--ink);padding:7px 14px;cursor:pointer}
+  button:hover{background:var(--surface-2)}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  button.primary{background:var(--accent);border-color:var(--accent);font-weight:600}
+  button.primary:hover{background:#2a78d6}
+
+  .wrap{max-width:1280px;margin:18px auto 0;padding:0 26px;
+    display:flex;flex-direction:column;gap:14px}
+
+  /* ---------- footer ---------- */
+  .sitefoot{max-width:1280px;margin:26px auto 0;padding:18px 26px 0;
+    border-top:1px solid var(--border);display:flex;gap:18px;
+    flex-wrap:wrap;align-items:baseline;font-size:12px;color:var(--muted)}
+  .sitefoot b{color:var(--ink-2);font-weight:600}
+  .sitefoot .grow{flex:1;min-width:220px}
+  .sitefoot p{margin:3px 0 0;max-width:70ch}
+  .sitefoot a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--border)}
+  .sitefoot a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+  .sitefoot .links{display:flex;gap:14px;flex-wrap:wrap}
+
+  /* ---------- cards ---------- */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+  .card h2{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.02em}
+  .card .sub{font-size:12px;color:var(--muted);margin:2px 0 10px}
+
+  /* ---------- KPI row ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi{position:relative;overflow:hidden}
+  .kpi .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+  .kpi .value{font-size:29px;font-weight:700;margin-top:6px;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums}
+  .kpi .delta{font-size:12px;color:var(--muted);margin-top:3px}
+  .kpi.hero{background:linear-gradient(135deg,rgba(57,135,229,.16),var(--surface) 55%)}
+  .kpi.hero .value{color:var(--accent);font-size:33px}
+  .kpi.hero .label{color:var(--ink-2)}
+
+  /* ---------- chart row ---------- */
+  .chartrow{display:grid;grid-template-columns:2fr 1fr;gap:14px;align-items:stretch}
+  svg text{font:11px system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-variant-numeric:tabular-nums;fill:var(--muted)}
+  .donutwrap{display:flex;gap:18px;align-items:center;margin-top:8px}
+  .dlegend{display:flex;flex-direction:column;gap:9px;font-size:12.5px;color:var(--ink-2)}
+  .dlegend .li{display:flex;align-items:center;gap:8px}
+  .dlegend .sw{width:10px;height:10px;border-radius:3px}
+  .dlegend b{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink);padding-left:14px}
+
+  /* ---------- main row ---------- */
+  .main{display:grid;grid-template-columns:1.45fr 1fr;gap:14px;align-items:start}
+  @media (max-width:1000px){.main,.chartrow{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+  .col{display:flex;flex-direction:column;gap:14px}
+
+  /* feed */
+  .feed{max-height:520px;overflow-y:auto;display:flex;flex-direction:column;margin-top:6px}
+  .fe{display:grid;grid-template-columns:3px 86px 1fr;gap:11px;padding:8px 10px 8px 0;
+    font-size:12.8px;align-items:baseline;border-bottom:1px solid rgba(255,255,255,.045)}
+  .fe:last-child{border-bottom:none}
+  .fe .bar{width:3px;height:100%;min-height:16px;border-radius:2px;background:var(--baseline);align-self:stretch}
+  .fe.agent .bar{background:var(--accent)} .fe.win .bar{background:var(--good)}
+  .fe.guardrail .bar{background:var(--warning)} .fe.loss .bar{background:var(--critical)}
+  .fe.human .bar{background:#d55181}
+  .fe .t{color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .fe .x{color:var(--ink-2)}
+  .fe.win .x{color:var(--ink);font-weight:500}
+
+  /* approvals */
+  #approvals .item{border:1px solid rgba(250,178,25,.35);border-radius:11px;
+    padding:12px 13px;margin-top:9px;background:rgba(250,178,25,.05)}
+  #approvals .head{display:flex;justify-content:space-between;gap:8px;font-size:13.5px}
+  #approvals .amt{font-weight:700;font-variant-numeric:tabular-nums}
+  #approvals .why{font-size:12.3px;color:var(--ink-2);margin:5px 0 10px}
+  #approvals .btns{display:flex;gap:8px}
+  button.ok{background:rgba(12,163,12,.15);border-color:rgba(12,163,12,.5);color:#7fd97f;flex:1}
+  button.no{background:rgba(208,59,59,.12);border-color:rgba(208,59,59,.5);color:#f09a9a;flex:1}
+  #approvals .none{font-size:12.5px;color:var(--muted);padding:10px 0 4px}
+  .count{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:999px;
+    background:var(--warning);color:#0b0b0b;font-size:11.5px;font-weight:700;
+    margin-left:7px;padding:0 5px;vertical-align:2px}
+
+  /* tabs card */
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--grid);margin:4px 0 12px}
+  .tabs button{border:none;background:none;border-radius:8px 8px 0 0;color:var(--muted);
+    padding:7px 13px;font-size:12.5px;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--ink);border-bottom-color:var(--accent)}
+  .tabpane{display:none}.tabpane.on{display:block}
+  label{display:block;font-size:11.5px;color:var(--muted);margin:9px 0 3px}
+  input,select{font:inherit;width:100%;background:var(--page);color:var(--ink);
+    border:1px solid var(--border);border-radius:8px;padding:7px 10px}
+  input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  form button{margin-top:12px;width:100%}
+  .saved{font-size:12px;color:var(--good);margin-top:6px;min-height:16px}
+
+  /* cases table */
+  table{width:100%;border-collapse:collapse;font-size:12.8px;margin-top:6px}
+  th{color:var(--muted);font-weight:500;text-align:left;padding:7px 9px;
+    border-bottom:1px solid var(--grid);white-space:nowrap;font-size:11.5px;
+    text-transform:uppercase;letter-spacing:.05em}
+  td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--ink-2);vertical-align:top}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:rgba(255,255,255,.025)}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;
+    padding:2px 9px;border-radius:999px;border:1px solid var(--border);color:var(--ink-2);white-space:nowrap}
+  .badge.rec{color:var(--good);border-color:rgba(12,163,12,.4);background:rgba(12,163,12,.08)}
+  .badge.sch{color:var(--accent);border-color:rgba(57,135,229,.4);background:rgba(57,135,229,.08)}
+  .badge.wait{color:var(--warning);border-color:rgba(250,178,25,.4);background:rgba(250,178,25,.07)}
+  .badge.cls{color:var(--serious);border-color:rgba(236,131,90,.4);background:rgba(236,131,90,.06)}
+  .scroll{overflow-x:auto}
+
+  @media (prefers-reduced-motion:no-preference){
+    .card{animation:rise .3s ease both}
+    @keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1}}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="mark">₹</div>
+  <div class="brand"><b>Paisa Wapas</b><span>the AI that wins back failed payments</span></div>
+  <div class="spacer"></div>
+  <span class="pill" id="clock" title="Simulated time — one day of payments passes in seconds">Day — · --:00</span>
+  <span class="pill live" id="status"><span class="dot"></span>getting ready…</span>
+  <span class="seg" role="group" aria-label="how fast simulated time passes">
+    <button data-speed="1" title="1 simulated hour per second">slow</button>
+    <button data-speed="6" class="on" title="6 simulated hours per second">normal</button>
+    <button data-speed="24" title="1 simulated day per second">fast</button>
+  </span>
+  <button class="primary" id="runBtn" disabled>▶ Start the agent</button>
+  <button id="resetBtn" title="Start a fresh demo — the agent keeps what it learned">↺ Reset</button>
+</div>
+
+<div class="wrap">
+  <section class="kpis">
+    <div class="card kpi hero"><div class="label">💰 Money won back</div>
+      <div class="value" id="kRecovered">₹0</div>
+      <div class="delta" id="kRecoveredN"></div></div>
+    <div class="card kpi"><div class="label">Stuck in failed payments</div>
+      <div class="value" id="kAtRisk">₹0</div>
+      <div class="delta" id="kSeen"></div></div>
+    <div class="card kpi"><div class="label">Being worked on</div>
+      <div class="value" id="kActive">0</div>
+      <div class="delta">action planned or waiting for your OK</div></div>
+    <div class="card kpi"><div class="label">Tries used</div>
+      <div class="value" id="kAttempts">0</div>
+      <div class="delta" id="kCost"></div></div>
+  </section>
+
+  <div class="chartrow">
+    <div class="card">
+      <h2>Money won back over time</h2>
+      <div class="sub">Growing live as the agent works — simulated days on the clock</div>
+      <svg id="lineChart" width="100%" height="240" role="img"
+           aria-label="Cumulative money recovered over simulated time"></svg>
+    </div>
+    <div class="card">
+      <h2>Where every payment stands</h2>
+      <div class="sub">Nothing is hidden — each one ends recovered or closed with a reason</div>
+      <div class="donutwrap">
+        <svg id="donut" width="150" height="150" viewBox="0 0 150 150" role="img"
+             aria-label="Payments by status"></svg>
+        <div class="dlegend" id="dlegend"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="col">
+      <div class="card">
+        <h2>Watch the agent work</h2>
+        <div class="sub">Every step, explained in plain words as it happens</div>
+        <div class="feed" id="feed" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h2>Big amounts need your OK<span class="count" id="apCount" hidden>0</span></h2>
+        <div class="sub">The agent never touches large payments on its own — it proposes, you decide</div>
+        <div id="approvals"><div class="none">Nothing waiting for you right now.</div></div>
+      </div>
+      <div class="card">
+        <div class="tabs" role="tablist">
+          <button class="on" data-tab="try" role="tab">🧪 Try it yourself</button>
+          <button data-tab="rules" role="tab">📏 Rules the agent follows</button>
+        </div>
+        <div class="tabpane on" id="tab-try">
+          <div class="sub">Create a failed payment and watch the agent handle it — tip: an amount above ₹50,000 will come back to you for approval</div>
+          <form id="injectForm">
+            <div class="two">
+              <div><label for="fMerchant">Business</label>
+                <input id="fMerchant" value="Chai Point Subscriptions"></div>
+              <div><label for="fAmount">Amount (₹)</label>
+                <input id="fAmount" type="number" min="1" value="1499"></div>
+            </div>
+            <div class="two">
+              <div><label for="fBank">Customer bank</label>
+                <select id="fBank"><option>HDFC</option><option>ICICI</option><option>SBI</option>
+                  <option>AXIS</option><option>KOTAK</option><option>PNB</option></select></div>
+              <div><label for="fCode">What went wrong</label>
+                <select id="fCode">
+                  <option value="U30_DEBIT_FAILED_FUNDS">Not enough balance</option>
+                  <option value="U68_BANK_UNAVAILABLE">Bank server down</option>
+                  <option value="U16_LIMIT_EXCEEDED">Daily limit crossed</option>
+                  <option value="U28_TECHNICAL_DECLINE">Technical glitch</option>
+                  <option value="CHECKOUT_ABANDONED">Customer left checkout</option>
+                  <option value="MANDATE_PAUSED">Auto-pay paused</option>
+                  <option value="MANDATE_REVOKED">Auto-pay cancelled (hopeless)</option>
+                </select></div>
+            </div>
+            <button class="primary" type="submit">Send to the agent</button>
+            <div class="saved" id="injectMsg"></div>
+          </form>
+        </div>
+        <div class="tabpane" id="tab-rules">
+          <div class="sub">Change a rule and the agent obeys it from the very next decision</div>
+          <form id="policyForm">
+            <div class="two">
+              <div><label for="pRetries">Max retries per payment (RBI cap)</label>
+                <input id="pRetries" type="number" min="0" max="10"></div>
+              <div><label for="pCeiling">Ask a human above (₹)</label>
+                <input id="pCeiling" type="number" min="0" step="1000"></div>
+            </div>
+            <div class="two">
+              <div><label for="pNudges">Max reminder messages</label>
+                <input id="pNudges" type="number" min="0" max="10"></div>
+              <div><label for="pVoice">Max phone calls</label>
+                <input id="pVoice" type="number" min="0" max="5"></div>
+            </div>
+            <div class="two">
+              <div><label for="pWinLo">Don't contact before (hour)</label>
+                <input id="pWinLo" type="number" min="0" max="23"></div>
+              <div><label for="pWinHi">Don't contact after (hour)</label>
+                <input id="pWinHi" type="number" min="0" max="23"></div>
+            </div>
+            <button type="submit">Save rules</button>
+            <div class="saved" id="policyMsg"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Every payment the agent is handling</h2>
+    <div class="sub">Most recent first</div>
+    <div class="scroll"><table id="caseTable">
+      <thead><tr><th>Payment</th><th>Business</th><th style="text-align:right">Amount</th>
+        <th>Bank</th><th>Why it failed</th><th>Where it stands</th><th>What happens next</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+</div>
+
+<footer class="sitefoot">
+  <div class="grow">
+    <b>Paisa Wapas</b> — autonomous revenue recovery for failed Indian recurring payments.
+    Razorpay AI Buildathon, Track 03.
+    <p>Runs entirely on synthetic data and test-mode APIs — no real customer data, no live money.
+      Retry timing is decided by a contextual bandit; Claude is used only for plain-English
+      explanations and customer nudges. Every action is replayable from
+      <code>ledger.sqlite</code>.</p>
+    <p>Failure mix, bank mix and downtime windows are grounded in NPCI's published UPI
+      statistics — refresh them with <code>make sources</code>. See
+      <a href="https://www.npci.org.in/product/ecosystem-statistics/upi" target="_blank"
+         rel="noopener">NPCI ecosystem statistics</a>.</p>
+  </div>
+  <div class="links">
+    <a href="/CHANGELOG.md">Changelog</a>
+    <a href="/policy.json">Compliance policy</a>
+  </div>
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const inr = v => "₹" + Math.round(v).toLocaleString("en-IN");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CAUSE = {INSUFFICIENT_FUNDS:"Not enough balance", BANK_DOWNTIME:"Bank server down",
+  LIMIT_EXCEEDED:"Daily limit crossed", TECHNICAL_DECLINE:"Technical glitch",
+  USER_DROPPED:"Left at checkout", MANDATE_PAUSED:"Auto-pay paused", HARD_DECLINE:"Auto-pay cancelled"};
+const CLOSE_REASON = {hard_decline:"closed — auto-pay cancelled",
+  caps_exhausted:"closed — hit the legal retry limit",
+  no_action_worth_its_cost:"closed — not worth chasing further",
+  operator_declined:"closed — you said no"};
+async function post(path, body){ return fetch(path, {method:"POST",
+  headers:{"Content-Type":"application/json"}, body:JSON.stringify(body||{})}); }
+
+let running = false, policyLoaded = false, feedKey = "";
+const history = [];   // {h: simulated hour, v: recovered ₹} sampled while polling
+
+$("runBtn").addEventListener("click", () => post("/api/run", {running: !running}));
+$("resetBtn").addEventListener("click", async () => {
+  await post("/api/reset"); history.length = 0; feedKey = ""; });
+document.querySelectorAll(".seg button").forEach(b =>
+  b.addEventListener("click", () => {
+    post("/api/speed", {speed: +b.dataset.speed});
+    document.querySelectorAll(".seg button").forEach(x => x.classList.toggle("on", x === b));
+  }));
+document.querySelectorAll(".tabs button").forEach(b =>
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b));
+    document.querySelectorAll(".tabpane").forEach(p =>
+      p.classList.toggle("on", p.id === "tab-" + b.dataset.tab));
+  }));
+
+$("injectForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const r = await post("/api/case", {merchant: $("fMerchant").value,
+    amount: +$("fAmount").value, bank: $("fBank").value, failure_code: $("fCode").value});
+  const j = await r.json();
+  $("injectMsg").textContent = j.case_id ? `Sent — watch ${j.case_id} in the live feed.` : "Failed.";
+  setTimeout(() => $("injectMsg").textContent = "", 4000);
+});
+$("policyForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  await post("/api/policy", {
+    max_debit_representations: +$("pRetries").value,
+    max_nudges: +$("pNudges").value,
+    max_voice_calls: +$("pVoice").value,
+    human_approval_amount_ceiling: +$("pCeiling").value,
+    contact_window_hours: [+$("pWinLo").value, +$("pWinHi").value]});
+  $("policyMsg").textContent = "Saved — the agent obeys from its next decision.";
+  setTimeout(() => $("policyMsg").textContent = "", 4000);
+});
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-approve]");
+  if (b) post("/api/approve", {case_id: b.dataset.caseId,
+    approved: b.dataset.approve === "yes"});
+});
+
+function badge(c){
+  if (c.status === "recovered") return `<span class="badge rec">✓ money back</span>`;
+  if (c.status === "waiting_approval") return `<span class="badge wait">⏳ waiting for your OK</span>`;
+  if (c.status === "scheduled") return `<span class="badge sch">→ action planned</span>`;
+  return `<span class="badge cls">⊘ ${esc(CLOSE_REASON[c.close_reason]||"closed")}</span>`;
+}
+
+/* ---------- live cumulative chart ---------- */
+function parseClock(str){  // "Day 12 · 03:00" → hours
+  const m = str.match(/Day (\d+) · (\d+)/);
+  return m ? (+m[1]) * 24 + (+m[2]) : 0;
+}
+function drawLine(){
+  const svg = $("lineChart");
+  const W = svg.clientWidth || 700, H = 240, m = {t:14, r:64, b:24, l:14};
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  if (history.length < 2) {
+    svg.innerHTML = `<text x="${W/2}" y="${H/2}" text-anchor="middle">
+      press ▶ Start the agent — the line grows as money comes back</text>`;
+    return;
+  }
+  const h0 = history[0].h, h1 = history[history.length-1].h;
+  const vMax = Math.max(1000, ...history.map(p => p.v)) * 1.15;
+  const X = h => m.l + (W - m.l - m.r) * (h - h0) / Math.max(1, h1 - h0);
+  const Y = v => H - m.b - (H - m.t - m.b) * v / vMax;
+  let g = "";
+  for (let i = 0; i <= 3; i++) {
+    const v = vMax * i / 3, y = Y(v);
+    g += `<line x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}"
+           stroke="${i?"var(--grid)":"var(--baseline)"}"/>` +
+      (i ? `<text x="${m.l}" y="${y-4}">${inr(v)}</text>` : "");
+  }
+  const dayStep = Math.max(1, Math.ceil((h1 - h0) / 24 / 6));
+  for (let d = Math.ceil(h0/24); d * 24 <= h1; d += dayStep)
+    g += `<text x="${X(d*24)}" y="${H-7}" text-anchor="middle">Day ${d}</text>`;
+  const pts = history.map(p => `${X(p.h).toFixed(1)},${Y(p.v).toFixed(1)}`);
+  const last = history[history.length-1];
+  g += `<polygon points="${m.l},${Y(0)} ${pts.join(" ")} ${X(last.h)},${Y(0)}"
+          fill="rgba(57,135,229,.14)"/>
+        <polyline points="${pts.join(" ")}" fill="none" stroke="var(--accent)"
+          stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="${X(last.h)}" cy="${Y(last.v)}" r="4.5" fill="var(--accent)"/>
+        <text x="${X(last.h)+9}" y="${Y(last.v)+4}" style="fill:var(--ink);font-weight:600">${inr(last.v)}</text>`;
+  svg.innerHTML = g;
+}
+
+/* ---------- status donut ---------- */
+function drawDonut(c){
+  const closed = Math.max(0, c.seen - c.recovered_n - c.active);
+  const parts = [
+    {label:"Money back", n:c.recovered_n, col:"var(--good)"},
+    {label:"Being worked on", n:c.active, col:"var(--accent)"},
+    {label:"Closed with a reason", n:closed, col:"var(--serious)"},
+  ];
+  const total = Math.max(1, c.seen);
+  const R = 58, CX = 75, CY = 75, CIRC = 2 * Math.PI * R;
+  let off = CIRC * .25, g = "";
+  for (const p of parts) {
+    const len = CIRC * p.n / total;
+    if (p.n > 0)
+      g += `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${p.col}"
+        stroke-width="15" stroke-dasharray="${Math.max(0,len-2)} ${CIRC-len+2}"
+        stroke-dashoffset="${off}" transform="rotate(0)"/>`;
+    off -= len;
+  }
+  const rate = c.seen ? Math.round(100 * c.recovered_n / c.seen) : 0;
+  g += `<text x="${CX}" y="${CY-3}" text-anchor="middle"
+          style="fill:var(--ink);font-size:24px;font-weight:700">${rate}%</text>
+        <text x="${CX}" y="${CY+16}" text-anchor="middle">recovered</text>`;
+  $("donut").innerHTML = g;
+  $("dlegend").innerHTML = parts.map(p =>
+    `<div class="li"><span class="sw" style="background:${p.col}"></span>
+      ${p.label}<b>${p.n}</b></div>`).join("") +
+    `<div class="li" style="color:var(--muted)">out of <b>${c.seen}</b></div>`;
+}
+
+/* ---------- poll & render ---------- */
+async function refresh(){
+  let s;
+  try { s = await (await fetch("/api/state")).json(); } catch { return; }
+  running = s.running;
+  $("clock").textContent = s.clock;
+  $("runBtn").disabled = !s.ready;
+  $("runBtn").textContent = running ? "⏸ Pause" : "▶ Start the agent";
+  $("status").innerHTML = `<span class="dot"></span>${!s.ready ? "getting ready…" :
+    running ? "agent is working" : "paused — press Start"}`;
+  $("status").classList.toggle("live", running);
+
+  const c = s.counters;
+  $("kRecovered").textContent = inr(c.recovered);
+  $("kRecoveredN").textContent = `${c.recovered_n} of ${c.seen} failed payments fixed`;
+  $("kAtRisk").textContent = inr(Math.max(0, c.at_risk - c.recovered));
+  $("kSeen").textContent = `${c.seen} failed payments so far`;
+  $("kActive").textContent = c.active;
+  $("kAttempts").textContent = c.attempts.toLocaleString("en-IN");
+  $("kCost").textContent = `${inr(c.cost)} on retries, messages & calls`;
+
+  const h = parseClock(s.clock);
+  const lastPt = history[history.length-1];
+  if (!lastPt || h > lastPt.h || c.recovered !== lastPt.v)
+    history.push({h, v: c.recovered});
+  if (history.length > 800) history.splice(0, history.length - 800);
+  drawLine();
+  drawDonut(c);
+
+  $("apCount").hidden = !s.approvals.length;
+  $("apCount").textContent = s.approvals.length;
+  $("approvals").innerHTML = s.approvals.length ? s.approvals.map(a => `
+    <div class="item">
+      <div class="head"><span>${esc(a.merchant)}</span><span class="amt">${inr(a.amount)}</span></div>
+      <div class="why">Failed because: ${esc(CAUSE[a.cause]||a.cause)}.<br>
+        The agent wants to <b>${esc(a.action)}</b> — it's ${Math.round(a.p*100)}% confident
+        and expects to win back ${inr(a.ev)}.</div>
+      <div class="btns">
+        <button class="ok" data-approve="yes" data-case-id="${esc(a.case_id)}">✓ Go ahead</button>
+        <button class="no" data-approve="no" data-case-id="${esc(a.case_id)}">✕ Don't</button>
+      </div>
+    </div>`).join("") : `<div class="none">Nothing waiting for you right now.</div>`;
+
+  const key = s.feed.length + ":" + (s.feed[0] ? s.feed[0].text : "");
+  if (key !== feedKey) {
+    feedKey = key;
+    $("feed").innerHTML = s.feed.map(f => `
+      <div class="fe ${f.kind}"><span class="bar"></span>
+        <span class="t">Day ${Math.floor(f.t/24)} · ${String(f.t%24).padStart(2,"0")}:00</span>
+        <span class="x">${esc(f.text)}</span></div>`).join("");
+  }
+
+  $("caseTable").querySelector("tbody").innerHTML = s.cases.map(cs => `
+    <tr><td>${esc(cs.case_id)}</td><td>${esc(cs.merchant)}</td>
+      <td class="num">${inr(cs.amount)}</td><td>${esc(cs.bank)}</td>
+      <td>${esc(CAUSE[cs.cause]||"")}</td><td>${badge(cs)}</td>
+      <td>${esc(cs.next)}</td></tr>`).join("");
+
+  if (!policyLoaded && s.policy && s.policy.max_debit_representations != null) {
+    policyLoaded = true;
+    $("pRetries").value = s.policy.max_debit_representations;
+    $("pNudges").value = s.policy.max_nudges;
+    $("pVoice").value = s.policy.max_voice_calls;
+    $("pCeiling").value = s.policy.human_approval_amount_ceiling;
+    $("pWinLo").value = s.policy.contact_window_hours[0];
+    $("pWinHi").value = s.policy.contact_window_hours[1];
+  }
+}
+refresh();
+setInterval(refresh, 400);
+</script>
+</body>
+</html>
